@@ -32,7 +32,7 @@ function LandingPage() {
           },
         });
 
-        navigate("/dashboard");
+        navigate("/footballmatch");
       }
     };
 
