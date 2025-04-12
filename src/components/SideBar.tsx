@@ -59,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </li>
           <li>
             <button
-              onClick={() => navigate("/history")}
+              onClick={() => navigate("/bethistory")}
               className="hover:underline"
             >
               History

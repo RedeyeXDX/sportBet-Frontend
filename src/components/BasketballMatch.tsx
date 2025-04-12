@@ -45,7 +45,9 @@ function basketballmatch() {
 
     fetchMatches();
   }, []);
-  const liveMatches = matches.filter((m) => m.status === "LIVE");
+  const liveMatches = matches.filter((m) =>
+    ["Q1", "Q2", "Q3", "Q4"].includes(m.status)
+  );
   const upcomingMatches = matches.filter((m) => m.status === "NS");
 
   const filteredLiveMatches = liveMatches.filter(

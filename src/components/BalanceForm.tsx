@@ -124,9 +124,9 @@ function BalanceForm() {
           <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
         )}
 
-        {balance !== null && (
+        {balance !== null && !isNaN(Number(balance)) && (
           <p className="mt-2 text-center font-semibold text-blue-600">
-            Current Balance: ${balance.toFixed(2)}
+            Current Balance: ${Number(balance).toFixed(2)}
           </p>
         )}
 

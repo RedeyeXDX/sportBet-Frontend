@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface BasketballMatch {
   id: number;
@@ -52,6 +53,7 @@ function BasketballMatchDetail() {
   >(null);
   const [stake, setStake] = useState<number>(0);
   const [betPlaced, setBetPlaced] = useState<boolean>(false);
+  const { user } = useAuth0();
 
   useEffect(() => {
     const fetchMatchDetails = async () => {
@@ -75,20 +77,30 @@ function BasketballMatchDetail() {
   };
 
   const handlePlaceBet = async () => {
-    if (!selectedBet || stake <= 0) return;
+    if (!selectedBet || !stake || stake <= 0) return;
+
+    const auth0Id = user?.sub;
+
+    if (!auth0Id) {
+      alert("User is not authenticated.");
+      return;
+    }
+
+    const betPayload = {
+      auth0_id: auth0Id,
+      matchId: match.id,
+      team: selectedBet,
+      stake,
+      odds: parseFloat(getOddsValue().toString()),
+    };
+
     try {
-      const payload = {
-        matchId: match.id,
-        team: selectedBet,
-        stake,
-        odds: getOddsValue(),
-      };
-      await axios.post("http://localhost:8080/api/bets", payload);
+      await axios.post("http://localhost:8080/api/bets", betPayload);
       setBetPlaced(true);
-      alert("✅ Bet placed!");
+      alert("Bet placed successfully!");
     } catch (err) {
-      console.error("Error placing bet", err);
-      alert("❌ Failed to place bet.");
+      console.error("Failed to place bet", err);
+      alert("Failed to place bet.");
     }
   };
 
@@ -104,12 +116,10 @@ function BasketballMatchDetail() {
           {new Date(match.date).toLocaleString()}
         </p>
 
-        {/* Score */}
         <div className="text-lg font-medium mb-4">
           🔢 Score: {match.stats.points.home} - {match.stats.points.away}
         </div>
 
-        {/* Betting Buttons */}
         <div className="grid grid-cols-3 gap-2 mb-4">
           <button
             onClick={() => setSelectedBet("home")}
@@ -143,7 +153,6 @@ function BasketballMatchDetail() {
           </button>
         </div>
 
-        {/* Stake Input */}
         <div className="mb-4">
           <label className="block text-sm mb-1">💸 Stake (₦)</label>
           <input
@@ -155,26 +164,24 @@ function BasketballMatchDetail() {
           />
         </div>
 
-        {/* Preview */}
         {selectedBet && stake > 0 && (
           <div className="bg-gray-100 border rounded p-3 text-sm mb-4">
             <p>
-              ✅ <strong>You bet:</strong>{" "}
+              <strong>You bet:</strong>{" "}
               {selectedBet === "home"
                 ? match.homeTeam
                 : selectedBet === "away"
                 ? match.awayTeam
                 : "Draw"}{" "}
-              WIN, ₦{stake.toLocaleString()} @ {match.odds[selectedBet]}
+              WIN, ${stake.toLocaleString()} @ {match.odds[selectedBet]}
             </p>
             <p>
-              💰 <strong>Potential winnings:</strong> ₦
+              💰 <strong>Potential winnings:</strong> $
               {(stake * getOddsValue()).toLocaleString()}
             </p>
           </div>
         )}
 
-        {/* Bet Button */}
         <button
           onClick={handlePlaceBet}
           disabled={!selectedBet || stake <= 0}
@@ -183,14 +190,12 @@ function BasketballMatchDetail() {
           Place Bet
         </button>
 
-        {/* Bet Placed */}
         {betPlaced && (
           <div className="bg-green-100 p-4 rounded mt-4 text-sm">
-            🎉 Bet placed successfully!
+            Bet placed successfully!
           </div>
         )}
 
-        {/* Team Stats */}
         <div className="mt-6">
           <h3 className="font-bold text-lg mb-2">📊 Team Stats</h3>
           {statTypes.map((type) => (

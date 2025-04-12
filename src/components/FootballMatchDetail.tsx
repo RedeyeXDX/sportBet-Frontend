@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface MatchDetail {
   id: number;
@@ -34,6 +35,7 @@ function FootballmatchDetail() {
   >(null);
   const [stake, setStake] = useState<number>(0);
   const [betPlaced, setBetPlaced] = useState<boolean>(false);
+  const { user } = useAuth0();
 
   useEffect(() => {
     const fetchMatchDetails = async () => {
@@ -63,20 +65,28 @@ function FootballmatchDetail() {
   const handlePlaceBet = async () => {
     if (!selectedBet || !stake || stake <= 0) return;
 
-    try {
-      const betPayload = {
-        matchId: match.id,
-        team: selectedBet,
-        stake,
-        odds: getOddsValue(),
-      };
+    const auth0Id = user?.sub;
 
+    if (!auth0Id) {
+      alert("User is not authenticated.");
+      return;
+    }
+
+    const betPayload = {
+      auth0_id: auth0Id,
+      matchId: match.id,
+      team: selectedBet,
+      stake,
+      odds: parseFloat(getOddsValue().toString()),
+    };
+
+    try {
       await axios.post("http://localhost:8080/api/bets", betPayload);
       setBetPlaced(true);
-      alert("✅ Bet placed successfully!");
+      alert("Bet placed successfully!");
     } catch (err) {
       console.error("Failed to place bet", err);
-      alert("❌ Failed to place bet.");
+      alert("Failed to place bet.");
     }
   };
 
@@ -118,7 +128,6 @@ function FootballmatchDetail() {
           </p>
         </div>
 
-        {/* Betting Options */}
         <div className="grid grid-cols-3 gap-2 mb-4">
           <button
             onClick={() => setSelectedBet("home")}
@@ -154,10 +163,10 @@ function FootballmatchDetail() {
 
         <div className="my-4">
           <label className="block text-sm mb-1 font-medium">
-            💸 Stake Amount (₦)
+            💸 Stake Amount ($)
           </label>
           <input
-            type="number"
+            type="text"
             value={stake}
             onChange={(e) => setStake(Number(e.target.value))}
             className="w-full p-2 border rounded text-sm"
@@ -174,10 +183,10 @@ function FootballmatchDetail() {
                 : selectedBet === "away"
                 ? match.awayTeam
                 : "Draw"}{" "}
-              WIN, ₦{stake.toLocaleString()} @ {match.odds[selectedBet]}
+              WIN, ${stake.toLocaleString()} @ {match.odds[selectedBet]}
             </p>
             <p>
-              💰 <strong>Potential winnings:</strong> ₦
+              💰 <strong>Potential winnings:</strong> $
               {parseFloat(potentialWinnings).toLocaleString()}
             </p>
           </div>
@@ -200,10 +209,10 @@ function FootballmatchDetail() {
                 : selectedBet === "away"
                 ? match.awayTeam
                 : "Draw"}{" "}
-              WIN, ₦{stake.toLocaleString()} @ {match.odds[selectedBet]}
+              WIN, ${stake.toLocaleString()} @ {match.odds[selectedBet]}
             </p>
             <p>
-              💰 <strong>Potential winnings:</strong> ₦
+              💰 <strong>Potential winnings:</strong> $
               {parseFloat(potentialWinnings).toLocaleString()}
             </p>
           </div>
