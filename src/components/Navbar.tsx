@@ -56,8 +56,8 @@ function Navbar() {
 
         <div className="flex items-center gap-4">
           {balance !== null && (
-            <span className="text-sm font-medium text-gray-700">
-              💰 Balance: ${balance}
+            <span className="flex items-center space-x-2 bg-yellow-100 px-3 py-1 rounded-full text-sm text-yellow-800 shadow-sm">
+              Balance: ${balance}
             </span>
           )}
         </div>

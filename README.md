@@ -1,58 +1,52 @@
-<<<<<<< HEAD
-# React + TypeScript + Vite
+# 🏆 Sport Betting App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web-based sports betting platform that allows users to:
 
-Currently, two official plugins are available:
+- 🔍 Browse football, basketball, and NFL matches
+- 📊 View detailed match stats and live odds
+- 💸 Place bets using their account balance
+- 🧾 Track bet history and account transactions
+- 🔐 Log in securely using Auth0 authentication
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Built With
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React** + **TypeScript**
+- **Tailwind CSS** for styling
+- **Vite** as the frontend build tool
+- **Auth0** for authentication and user management
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔎 Preview
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 🏠 Landing Page
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
-=======
-# sportBet-Frontend
->>>>>>> eb3bd64ca0d074c9b3f4c0e34f9bd5ee140f7d8c
+![Landing Page](src/img/landing-page.png)
+
+### 🔐 Login Page
+
+![Login Page](src/img/login.png)
+
+### 🏀 Matches Page
+
+![Matches](src/img/matches.png)
+
+### 🧭 Navbar
+
+![Navbar](src/img/navbar.png)
+
+### 💳 Deposit / Withdrawal
+
+![Deposit/Withdrawal](src/img/balance.png)
+
+### 📜 Bet History Page
+
+![Bet History](src/img/bet-history.png)
+
+---
+
+## 🔗 API Requirements
+
+- [Auth0](https://auth0.com/) – for secure authentication and user profile management
