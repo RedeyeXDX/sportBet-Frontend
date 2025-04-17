@@ -23,27 +23,27 @@ A web-based sports betting platform that allows users to:
 
 ### 🏠 Landing Page
 
-![Landing Page](src/img/landing-page.png)
+![Landing Page](./public/img/landing-page.png)
 
 ### 🔐 Login Page
 
-![Login Page](src/img/login.png)
+![Login Page](./public/img/login.png)
 
 ### 🏀 Matches Page
 
-![Matches](src/img/matches.png)
+![Matches](./public/img/matches.png)
 
 ### 🧭 Navbar
 
-![Navbar](src/img/navbar.png)
+![Navbar](./public/img/navbar.png)
 
 ### 💳 Deposit / Withdrawal
 
-![Deposit/Withdrawal](src/img/balance.png)
+![Deposit/Withdrawal](./public/img/balance.png)
 
 ### 📜 Bet History Page
 
-![Bet History](src/img/bet-history.png)
+![Bet History](./public/img/bet-history.png)
 
 ---
 
